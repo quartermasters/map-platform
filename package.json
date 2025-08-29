@@ -1,0 +1,32 @@
+{
+  "name": "map-terminal",
+  "version": "1.0.0",
+  "description": "Bloomberg-style Medicinal & Aromatic Plants Market Intelligence Platform",
+  "main": "index.php",
+  "scripts": {
+    "start": "php -S localhost:8000",
+    "dev": "live-server --port=8000 --open=/index.php",
+    "serve": "python -m http.server 8000",
+    "test": "echo \"Navigate to http://localhost:8000 to test the application\""
+  },
+  "keywords": [
+    "bloomberg-terminal",
+    "medicinal-plants",
+    "market-intelligence",
+    "php",
+    "dashboard"
+  ],
+  "author": "Quartermasters FZC - Team Lead: Haroon Haider",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "."
+  },
+  "engines": {
+    "php": ">=7.4",
+    "node": ">=14.0.0"
+  }
+}

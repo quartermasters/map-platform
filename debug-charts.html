@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart Debug Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <style>
+        body { background: #0d1117; color: #e6edf3; font-family: monospace; padding: 20px; }
+        .chart-container { width: 400px; height: 300px; margin: 20px; background: #21262d; padding: 10px; }
+        canvas { background: #161b22; }
+    </style>
+</head>
+<body>
+    <h1>Chart.js Debug Test</h1>
+    
+    <div class="chart-container">
+        <h3>Growth Trend Chart</h3>
+        <canvas id="testChart" width="380" height="280"></canvas>
+    </div>
+
+    <div id="debug-output">
+        <h3>Debug Output:</h3>
+    </div>
+
+    <script>
+        function log(message) {
+            const debugOutput = document.getElementById('debug-output');
+            debugOutput.innerHTML += '<p>' + message + '</p>';
+            console.log(message);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            log('DOM loaded, checking Chart.js...');
+            
+            if (typeof Chart === 'undefined') {
+                log('ERROR: Chart.js not loaded!');
+                return;
+            }
+            
+            log('Chart.js version: ' + Chart.version);
+            
+            const ctx = document.getElementById('testChart');
+            if (!ctx) {
+                log('ERROR: Canvas element not found!');
+                return;
+            }
+            
+            log('Canvas element found, creating chart...');
+            
+            try {
+                const chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['2020', '2021', '2022', '2023', '2024'],
+                        datasets: [{
+                            label: 'Test Data',
+                            data: [100, 150, 200, 250, 300],
+                            borderColor: '#ff6b35',
+                            backgroundColor: 'rgba(255, 107, 53, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#e6edf3'
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: '#7d8590'
+                                },
+                                grid: {
+                                    color: '#30363d'
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: '#7d8590'
+                                },
+                                grid: {
+                                    color: '#30363d'
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                log('SUCCESS: Chart created successfully!');
+            } catch (error) {
+                log('ERROR creating chart: ' + error.message);
+                log('Full error: ' + JSON.stringify(error));
+            }
+        });
+    </script>
+</body>
+</html>
