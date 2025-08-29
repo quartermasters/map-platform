@@ -3,7 +3,8 @@
     "allow": [
       "WebSearch",
       "WebFetch(domain:support.hostinger.com)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(php:*)"
     ],
     "deny": [],
     "ask": []

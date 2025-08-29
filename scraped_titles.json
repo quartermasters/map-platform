@@ -1,0 +1,52 @@
+[
+    {
+        "title": "Medicinal Plant Market Reaches $410B in Global Valuation",
+        "source": "Market Research",
+        "url": "https:\/\/example.com\/1",
+        "timestamp": 1756497503,
+        "relevance_score": 0.95,
+        "date_scraped": "2025-08-29 23:58:23",
+        "category": "market_analysis",
+        "word_count": 8
+    },
+    {
+        "title": "Herbal Medicine Industry Shows 8.1% CAGR Growth",
+        "source": "Industry Analysis",
+        "url": "https:\/\/example.com\/2",
+        "timestamp": 1756497503,
+        "relevance_score": 0.88,
+        "date_scraped": "2025-08-29 23:58:23",
+        "category": "general",
+        "word_count": 6
+    },
+    {
+        "title": "Investment Opportunities in Plant-Based Pharmaceuticals",
+        "source": "Financial News",
+        "url": "https:\/\/example.com\/5",
+        "timestamp": 1756497503,
+        "relevance_score": 0.85,
+        "date_scraped": "2025-08-29 23:58:23",
+        "category": "investment",
+        "word_count": 5
+    },
+    {
+        "title": "Aromatic Plants Export Market Expands to Europe",
+        "source": "Trade News",
+        "url": "https:\/\/example.com\/3",
+        "timestamp": 1756497503,
+        "relevance_score": 0.82,
+        "date_scraped": "2025-08-29 23:58:23",
+        "category": "market_analysis",
+        "word_count": 7
+    },
+    {
+        "title": "New Research on Essential Oil Therapeutic Properties",
+        "source": "Scientific Journal",
+        "url": "https:\/\/example.com\/4",
+        "timestamp": 1756497503,
+        "relevance_score": 0.76,
+        "date_scraped": "2025-08-29 23:58:23",
+        "category": "research",
+        "word_count": 7
+    }
+]
