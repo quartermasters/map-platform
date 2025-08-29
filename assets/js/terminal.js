@@ -477,40 +477,136 @@ class MAPTerminal {
         });
     }
 
-    // Interactive Charts System
+    // Interactive Charts System with enhanced webserver compatibility
     initInteractiveCharts() {
-        // Extended wait for Chart.js to load on webservers
-        if (typeof Chart === 'undefined') {
-            console.log('Waiting for Chart.js to load... Attempt:', this.chartLoadAttempts || 1);
-            this.chartLoadAttempts = (this.chartLoadAttempts || 0) + 1;
-            
-            if (this.chartLoadAttempts < 20) { // Try for 10 seconds
-                setTimeout(() => this.initInteractiveCharts(), 500);
-                return;
-            } else {
-                console.error('Chart.js failed to load after 10 seconds');
-                this.showChartError();
+        console.log('Initializing interactive charts...');
+        
+        // Use Promise-based approach for better error handling
+        this.waitForChartJS()
+            .then(() => {
+                console.log('Chart.js loaded successfully, version:', Chart.version);
+                return this.initializeAllCharts();
+            })
+            .catch((error) => {
+                console.error('Chart initialization failed:', error);
+                this.loadFallbackCharts();
+            });
+    }
+
+    waitForChartJS() {
+        return new Promise((resolve, reject) => {
+            // Check if Chart.js is already available
+            if (typeof Chart !== 'undefined') {
+                resolve();
                 return;
             }
-        }
 
-        console.log('Chart.js loaded, initializing charts...');
-        try {
-            this.setupChartDefaults();
-            
-            // Initialize charts one by one with delays for webserver compatibility
-            setTimeout(() => this.createGrowthTrendChart(), 100);
-            setTimeout(() => this.createRegionalDistributionChart(), 300);
-            setTimeout(() => this.createGrowthComparisonChart(), 500);
-            setTimeout(() => this.createSegmentPerformanceChart(), 700);
-            setTimeout(() => this.initChartControls(), 900);
-            setTimeout(() => this.startRealTimeUpdates(), 1100);
-            
-            console.log('All charts initialization started');
-        } catch (error) {
-            console.error('Error initializing charts:', error);
-            this.showChartError();
+            let attempts = 0;
+            const maxAttempts = 30; // 15 seconds total
+            const interval = 500; // Check every 500ms
+
+            const checkChart = () => {
+                attempts++;
+                console.log(`Chart.js loading check ${attempts}/${maxAttempts}...`);
+
+                if (typeof Chart !== 'undefined') {
+                    resolve();
+                    return;
+                }
+
+                if (attempts >= maxAttempts) {
+                    reject(new Error(`Chart.js failed to load after ${maxAttempts * interval / 1000} seconds`));
+                    return;
+                }
+
+                setTimeout(checkChart, interval);
+            };
+
+            // Start checking
+            setTimeout(checkChart, 100); // Initial delay
+        });
+    }
+
+    initializeAllCharts() {
+        return new Promise((resolve, reject) => {
+            try {
+                console.log('Setting up Chart.js defaults...');
+                this.setupChartDefaults();
+                
+                // Initialize charts sequentially to avoid conflicts
+                const chartInitializers = [
+                    () => this.createGrowthTrendChart(),
+                    () => this.createRegionalDistributionChart(), 
+                    () => this.createGrowthComparisonChart(),
+                    () => this.createSegmentPerformanceChart()
+                ];
+
+                let currentChart = 0;
+                const initNext = () => {
+                    if (currentChart < chartInitializers.length) {
+                        console.log(`Initializing chart ${currentChart + 1}/${chartInitializers.length}...`);
+                        try {
+                            chartInitializers[currentChart]();
+                            currentChart++;
+                            setTimeout(initNext, 200); // Staggered initialization
+                        } catch (error) {
+                            console.error(`Error initializing chart ${currentChart + 1}:`, error);
+                            currentChart++;
+                            setTimeout(initNext, 200);
+                        }
+                    } else {
+                        console.log('All charts initialized successfully');
+                        setTimeout(() => this.initChartControls(), 100);
+                        setTimeout(() => this.startRealTimeUpdates(), 200);
+                        resolve();
+                    }
+                };
+
+                initNext();
+                
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    loadFallbackCharts() {
+        console.log('Loading fallback chart system...');
+        
+        // First try to use backup-charts.js if available
+        if (typeof BackupCharts !== 'undefined') {
+            console.log('Using BackupCharts fallback system');
+            BackupCharts.createSimpleCharts();
+        } else {
+            console.log('Creating inline fallback charts');
+            this.createInlineFallbackCharts();
         }
+    }
+
+    createInlineFallbackCharts() {
+        // Create simple fallback displays when both Chart.js and BackupCharts fail
+        const chartContainers = {
+            'growthTrendChart': 'Market Growth Trend',
+            'regionalDistributionChart': 'Regional Distribution', 
+            'growthComparisonChart': 'Growth Comparison',
+            'segmentPerformanceChart': 'Segment Performance'
+        };
+
+        Object.entries(chartContainers).forEach(([canvasId, title]) => {
+            const canvas = document.getElementById(canvasId);
+            if (canvas && canvas.parentElement) {
+                canvas.parentElement.innerHTML = `
+                    <div class="inline-fallback-chart">
+                        <div class="fallback-title">${title}</div>
+                        <div class="fallback-message">
+                            <i class="fas fa-chart-line"></i>
+                            <p>Chart data temporarily unavailable</p>
+                            <small>Please refresh to try again</small>
+                        </div>
+                    </div>
+                `;
+            }
+        });
     }
 
     showChartError() {

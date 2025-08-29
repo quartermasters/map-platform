@@ -53,19 +53,58 @@ $regional_data = [
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- Chart.js for Interactive Analytics - Multiple CDN Fallbacks -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5504723671860633"
+         crossorigin="anonymous"></script>
+    
+    <!-- Chart.js for Interactive Analytics - Enhanced webserver loading -->
     <script>
-        // CDN Fallback - Load from alternative CDN if first fails
-        if (typeof Chart === 'undefined') {
-            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"><\/script>');
+        console.log('Loading Chart.js with webserver optimizations...');
+        
+        // Function to load script dynamically with better error handling
+        function loadChartJS(url, callback) {
+            const script = document.createElement('script');
+            script.src = url;
+            script.onload = callback;
+            script.onerror = function() {
+                console.warn('Failed to load Chart.js from:', url);
+                callback(false);
+            };
+            script.crossOrigin = 'anonymous'; // Handle CORS issues
+            document.head.appendChild(script);
         }
-    </script>
-    <script>
-        // Second fallback - Load from unpkg CDN
-        if (typeof Chart === 'undefined') {
-            document.write('<script src="https://unpkg.com/chart.js@3.9.1/dist/chart.min.js"><\/script>');
+
+        // Progressive loading with multiple CDN attempts
+        function attemptChartJSLoad() {
+            const cdns = [
+                'https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js',
+                'https://unpkg.com/chart.js@3.9.1/dist/chart.min.js'
+            ];
+
+            let cdnIndex = 0;
+
+            function tryNextCDN(success) {
+                if (success || typeof Chart !== 'undefined') {
+                    console.log('Chart.js loaded successfully from CDN:', cdns[cdnIndex - 1] || 'unknown');
+                    return;
+                }
+
+                if (cdnIndex < cdns.length) {
+                    console.log(`Attempting to load Chart.js from CDN ${cdnIndex + 1}/${cdns.length}`);
+                    loadChartJS(cdns[cdnIndex], tryNextCDN);
+                    cdnIndex++;
+                } else {
+                    console.warn('All Chart.js CDN attempts failed, relying on fallback systems');
+                }
+            }
+
+            // Start loading
+            tryNextCDN(false);
         }
+
+        // Start loading process
+        attemptChartJSLoad();
     </script>
 </head>
 <body class="terminal-body">
@@ -94,6 +133,21 @@ $regional_data = [
             </div>
         </div>
     </header>
+
+    <!-- Header Leaderboard Ad -->
+    <div class="ad-container ad-header-leaderboard">
+        <div class="ad-label">SPONSORED</div>
+        <div class="ad-placeholder" id="ad-header-728x90">
+            <!-- Google Ad 728x90 Leaderboard -->
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:728px;height:90px"
+                 data-ad-client="ca-pub-5504723671860633"
+                 data-ad-slot="XXXXXXXXX"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
 
     <!-- Main Container -->
     <div class="terminal-container">
@@ -127,6 +181,23 @@ $regional_data = [
             </ul>
         </nav>
 
+        <!-- Right Sidebar Ads -->
+        <aside class="ads-sidebar">
+            <div class="ad-container ad-medium-rectangle">
+                <div class="ad-label">ADVERTISEMENT</div>
+                <div class="ad-placeholder" id="ad-sidebar-300x250">
+                    <!-- Google Ad 300x250 Medium Rectangle -->
+                            <ins class="adsbygoogle"
+                         style="display:inline-block;width:300px;height:250px"
+                         data-ad-client="ca-pub-5504723671860633"
+                         data-ad-slot="XXXXXXXXX"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </aside>
+
         <!-- Main Content -->
         <main class="terminal-main">
             <!-- Overview Section -->
@@ -151,6 +222,21 @@ $regional_data = [
                         <div class="metric-change change-<?php echo $metric['status']; ?>"><?php echo $metric['change']; ?></div>
                     </div>
                     <?php endforeach; ?>
+                </div>
+
+                <!-- Ad Break: Overview Section -->
+                <div class="ad-container ad-panel-break">
+                    <div class="ad-label">SPONSORED</div>
+                    <div class="ad-placeholder" id="ad-overview-320x100">
+                        <!-- Google Ad 320x100 Large Mobile Banner -->
+                                    <ins class="adsbygoogle"
+                             style="display:inline-block;width:320px;height:100px"
+                             data-ad-client="ca-pub-5504723671860633"
+                             data-ad-slot="XXXXXXXXX"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
                 </div>
 
                 <!-- Market Overview Chart -->
@@ -251,6 +337,21 @@ $regional_data = [
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Ad Break: Markets Section -->
+                <div class="ad-container ad-panel-break">
+                    <div class="ad-label">SPONSORED</div>
+                    <div class="ad-placeholder" id="ad-markets-320x100">
+                        <!-- Google Ad 320x100 Large Mobile Banner -->
+                                    <ins class="adsbygoogle"
+                             style="display:inline-block;width:320px;height:100px"
+                             data-ad-client="ca-pub-5504723671860633"
+                             data-ad-slot="XXXXXXXXX"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
                     </div>
                 </div>
 
@@ -412,6 +513,21 @@ $regional_data = [
                     </div>
                 </div>
 
+                <!-- Ad Break: Species Section -->
+                <div class="ad-container ad-panel-break">
+                    <div class="ad-label">SPONSORED</div>
+                    <div class="ad-placeholder" id="ad-species-320x100">
+                        <!-- Google Ad 320x100 Large Mobile Banner -->
+                                    <ins class="adsbygoogle"
+                             style="display:inline-block;width:320px;height:100px"
+                             data-ad-client="ca-pub-5504723671860633"
+                             data-ad-slot="XXXXXXXXX"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                </div>
+
                 <!-- Commercial Applications Panel -->
                 <div class="panel-container">
                     <div class="panel-header">
@@ -490,6 +606,21 @@ $regional_data = [
                     </div>
                 </div>
 
+                <!-- Ad Break: Supply Chain Section -->
+                <div class="ad-container ad-panel-break">
+                    <div class="ad-label">SPONSORED</div>
+                    <div class="ad-placeholder" id="ad-supply-320x100">
+                        <!-- Google Ad 320x100 Large Mobile Banner -->
+                                    <ins class="adsbygoogle"
+                             style="display:inline-block;width:320px;height:100px"
+                             data-ad-client="ca-pub-5504723671860633"
+                             data-ad-slot="XXXXXXXXX"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                </div>
+
                 <!-- Quality Standards Panel -->
                 <div class="panel-container">
                     <div class="panel-header">
@@ -561,6 +692,21 @@ $regional_data = [
                                 </ul>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Ad Break: Outlook Section -->
+                <div class="ad-container ad-panel-break">
+                    <div class="ad-label">SPONSORED</div>
+                    <div class="ad-placeholder" id="ad-outlook-320x100">
+                        <!-- Google Ad 320x100 Large Mobile Banner -->
+                                    <ins class="adsbygoogle"
+                             style="display:inline-block;width:320px;height:100px"
+                             data-ad-client="ca-pub-5504723671860633"
+                             data-ad-slot="XXXXXXXXX"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
                     </div>
                 </div>
 
@@ -640,6 +786,37 @@ $regional_data = [
         </main>
     </div>
 
+    <!-- Footer Banner Ad -->
+    <div class="ad-container ad-footer-banner">
+        <div class="ad-label">SPONSORED</div>
+        <div class="ad-placeholder" id="ad-footer-728x90">
+            <!-- Google Ad 728x90 Leaderboard -->
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:728px;height:90px"
+                 data-ad-client="ca-pub-5504723671860633"
+                 data-ad-slot="XXXXXXXXX"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+
+    <!-- Floating Ad (Sticky) -->
+    <div class="ad-container ad-floating" id="floating-ad">
+        <button class="ad-close-btn" onclick="closeFloatingAd()">&times;</button>
+        <div class="ad-label">AD</div>
+        <div class="ad-placeholder" id="ad-floating-300x250">
+            <!-- Google Ad 300x250 Medium Rectangle -->
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:300px;height:250px"
+                 data-ad-client="ca-pub-5504723671860633"
+                 data-ad-slot="XXXXXXXXX"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+
     <!-- Terminal Footer -->
     <footer class="terminal-footer">
         <div class="footer-content">
@@ -654,7 +831,111 @@ $regional_data = [
         </div>
     </footer>
 
-    <!-- JavaScript -->
+    <!-- JavaScript - Loaded in proper order for webserver compatibility -->
+    <script>
+        // Enhanced Chart.js loading detection with debug logging
+        console.log('Starting Chart.js detection...');
+        let chartLoadCheckInterval;
+        let chartLoadAttempts = 0;
+        const maxChartLoadAttempts = 30; // 15 seconds
+        
+        function checkChartLoading() {
+            chartLoadAttempts++;
+            console.log(`Chart.js check attempt ${chartLoadAttempts}/${maxChartLoadAttempts}...`);
+            
+            if (typeof Chart !== 'undefined') {
+                console.log('Chart.js loaded successfully, version:', Chart.version);
+                clearInterval(chartLoadCheckInterval);
+                initializeTerminal();
+            } else if (chartLoadAttempts >= maxChartLoadAttempts) {
+                console.warn('Chart.js failed to load after 15 seconds, proceeding with terminal initialization');
+                clearInterval(chartLoadCheckInterval);
+                initializeTerminal();
+            }
+        }
+        
+        function initializeTerminal() {
+            console.log('Initializing MAP Terminal...');
+            // Initialize terminal after DOM and Chart.js are ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    new MAPTerminal();
+                });
+            } else {
+                new MAPTerminal();
+            }
+        }
+        
+        // Start checking for Chart.js after a brief delay
+        setTimeout(() => {
+            chartLoadCheckInterval = setInterval(checkChartLoading, 500);
+        }, 100);
+
+        // Google Ads Integration Functions
+        function closeFloatingAd() {
+            const floatingAd = document.getElementById('floating-ad');
+            if (floatingAd) {
+                floatingAd.style.display = 'none';
+                localStorage.setItem('floatingAdClosed', 'true');
+            }
+        }
+
+        function showFloatingAd() {
+            const floatingAd = document.getElementById('floating-ad');
+            const adClosed = localStorage.getItem('floatingAdClosed');
+            
+            if (floatingAd && !adClosed) {
+                floatingAd.classList.add('show');
+            }
+        }
+
+        // Show floating ad after 30 seconds of page load
+        setTimeout(showFloatingAd, 30000);
+
+        // Reset floating ad closure on session change (optional)
+        window.addEventListener('beforeunload', function() {
+            localStorage.removeItem('floatingAdClosed');
+        });
+
+        // AdSense optimization - Lazy load ads below the fold
+        function initLazyAds() {
+            const adsContainers = document.querySelectorAll('.ad-container');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const adContainer = entry.target;
+                        // Trigger ad loading when container comes into view
+                        if (typeof adsbygoogle !== 'undefined') {
+                            try {
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            } catch (e) {
+                                console.log('AdSense error:', e);
+                            }
+                        }
+                        observer.unobserve(adContainer);
+                    }
+                });
+            }, { 
+                rootMargin: '100px',
+                threshold: 0.1 
+            });
+
+            adsContainers.forEach(container => {
+                observer.observe(container);
+            });
+        }
+
+        // Initialize lazy ad loading when DOM is ready
+        document.addEventListener('DOMContentLoaded', initLazyAds);
+    </script>
+    
+    <!-- Google Ads Configuration -->
+    <script src="ads-config.js"></script>
+    
+    <!-- Backup Charts System -->
+    <script src="backup-charts.js"></script>
+    
+    <!-- Main Terminal JavaScript -->
     <script src="assets/js/terminal.js"></script>
 </body>
 </html>

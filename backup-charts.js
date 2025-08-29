@@ -160,10 +160,21 @@ class BackupCharts {
     }
 }
 
-// Auto-initialize backup charts if Chart.js fails
+// Enhanced auto-initialization for webserver compatibility
+console.log('BackupCharts system loaded');
+
+// Auto-initialize backup charts if Chart.js fails after extended timeout
 setTimeout(() => {
     if (typeof Chart === 'undefined') {
-        console.log('Chart.js not available, using backup charts');
+        console.log('Chart.js not available after 20 seconds, using backup charts');
         BackupCharts.createSimpleCharts();
+    } else {
+        console.log('Chart.js is available, backup charts on standby');
     }
-}, 3000);
+}, 20000); // Increased to 20 seconds for webserver
+
+// Also provide immediate fallback function for manual triggering
+window.triggerBackupCharts = function() {
+    console.log('Manually triggering backup charts...');
+    BackupCharts.createSimpleCharts();
+};
